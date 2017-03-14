@@ -7,7 +7,6 @@ $ npm install
 $ npm run compileScript
 $ npm start
 ```
----
 
 # 什么是MobX
 ## 核心概念
@@ -17,8 +16,6 @@ MobX采取更简单直接的方法：让state前后不一致的情况不可能�
 
 ## mobx-react
 [mobx-react](https://github.com/mobxjs/mobx-react)是针对MobX针对React推出的解决方案。同时支持React和React Native。
-
----
 
 # 结合React与MobX
 ## React组件生命周期
@@ -138,8 +135,6 @@ import DevTools from 'mobx-react-devtools';
 本Demo选取了apollo-mobile中部分组件，按照上述方法实现MobX集成。
 
 出现在本Demo界面中的所有元素都已经集成了MobX，并且开启了DevTools。
-
----
 
 # 进行中：与IE8的兼容测试
 代码中包含的ie8-demo文件夹，是正在进行的MobX与IE8兼容性解决方案。包含单独的package.json，是一个单独的项目。
