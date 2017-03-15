@@ -1,12 +1,7 @@
 # Apollo Mobile Framework With MobX
-这是一个将[MobX](https://mobx.js.org)与现有apollo-mobile开发框架结合的Demo。MobX是一个负责状态(state)管理的JS库，并且有针对react的版本[mobx-react](https://github.com/mobxjs/mobx-react)。
-
-## 安装&运行
-```
-$ npm install
-$ npm run compileScript
-$ npm start
-```
+这是一个将[MobX](https://mobx.js.org)与FIREFLY平台现有apollo-mobile开发框架结合的Demo。MobX是一个负责状态(state)管理的JS库，并且有针对react的版本[mobx-react](https://github.com/mobxjs/mobx-react)。
+这篇文章将从React的状态管理角度入手，阐述引入MobX的优势和方法。
+(Demo源代码此处不提供)
 
 # 什么是MobX
 ## 核心概念
@@ -133,12 +128,7 @@ import DevTools from 'mobx-react-devtools';
 
 # apollo-mobile集成MobX
 本Demo选取了apollo-mobile中部分组件，按照上述方法实现MobX集成。
-
 出现在本Demo界面中的所有元素都已经集成了MobX，并且开启了DevTools。
 
 # 进行中：与IE8的兼容测试
-代码中包含的ie8-demo文件夹，是正在进行的MobX与IE8兼容性解决方案。包含单独的package.json，是一个单独的项目。
-```javascript
-$ npm install
-$ npm start
-```
+目前正在寻找MobX与IE8兼容性解决方案。MobX本身不兼容IE8.
