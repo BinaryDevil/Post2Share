@@ -83,7 +83,7 @@ build流水线生成每个文件的两种版本：raw和Brotli压缩文件。我
 发到www.linkedin.com的最初请求由应用web服务器处理，它回传一个基础HTML文本，其中包含启动app所需要的所有JS和CSS的URL。这些URL是由服务器端根据客户端发送请求的`Accept-Encoding`头（Header）生成的。如果header中有`br`这一项，我们会选择Brotli压缩版本，根据之前JSON中的hash值生成CDN URL；否则我们就会使用raw文件，也就是由静态内容服务器以gzip压缩过的文件。例如，针对Safari提供的静态内容URL会不同于Chrome/Firefox，因为Safari不支持Brotli解码。
 
 ## 速度提升结果度量
-我们创建了一个A/B测试，对于50%的领英用户采取“尽可能使用Brotli”方案，另外50%使用原本的办法。我们比较了领英主页加载时间，发现US地区有2-3.6%的响应速度提升，而在印度则有6-6.5%。Brotli对于低带宽用户能带来更大的收益。对于印度的提升大于美国，移动端的提升大于桌面端。
+我们创建了一个A/B测试，对于50%的领英用户采取“尽可能使用Brotli”方案，另外50%使用原本的办法。我们比较了领英主页加载到90%所用的时间，发现US地区有2-3.6%的响应速度提升，而在印度则有6-6.5%。Brotli对于低带宽用户能带来更大的收益。对于印度的提升大于美国，移动端的提升大于桌面端。
 ![Site speed improvement](https://content.linkedin.com/content/dam/engineering/site-assets/images/blog/posts/2017/05/brotli6.jpg)
 
 ## 结论
