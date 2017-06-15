@@ -1,4 +1,4 @@
-# 外文干货译制节选之 - 使用Brotli压缩加快网站响应速度
+# 使用Brotli压缩加快网站响应速度
 
 来源：[LinkedIn Engineering Blog](https://engineering.linkedin.com/blog/2017/05/boosting-site-speed-using-brotli-compression)
 
