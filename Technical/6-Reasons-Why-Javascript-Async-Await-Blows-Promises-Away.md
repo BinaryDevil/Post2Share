@@ -1,4 +1,4 @@
-# Javscrtpt Async/Await 秒杀 Promise 的6个理由（教学向）
+# JavaScript Async/Await 秒杀 Promise 的6个理由（教学向）
 
 原著：[6 Reasons Why JavaScript's Async/Await Blows Promises Away (Tutorial)](https://hackernoon.com/6-reasons-why-javascripts-async-await-blows-Promises-away-tutorial-c7ec10518dd9)
 
