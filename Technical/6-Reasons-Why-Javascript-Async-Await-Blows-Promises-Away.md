@@ -149,3 +149,129 @@ const makeRequest = async () => {
 ```
 
 ### 4\. 中间值
+
+你可能遇到这种情况：你需要调用`promise1`然后用它的返回值去调用`promise2`，然后用两者的返回值去调用`promise3`，你的代码很可能是这样的：
+
+```javascript
+const makeRequest = () => {
+  return promise1()
+    .then(value1 => {
+      // do something
+      return promise2(value1)
+        .then(value2 => {
+          // do something          
+          return promise3(value1, value2)
+        })
+    })
+}
+```
+
+如果`promise3`不需要`value1`，这个层级关系会清楚一些。如果你不能忍受，你可以用`promise.all`包装value1和value2：
+
+```javascript
+const makeRequest = () => {
+  return promise1()
+    .then(value1 => {
+      // do something
+      return Promise.all([value1, promise2(value1)])
+    })
+    .then(([value1, value2]) => {
+      // do something          
+      return promise3(value1, value2)
+    })
+}
+```
+
+这种写法牺牲了可读性，`value1`和`value2`不应当出于任何理由属于同一个数组。
+
+同样的逻辑如果使用async/await来写会变得很简单，会让你怀疑以前为什么挣扎着让使用`Promise`的代码看起来更简单：
+
+```javascript
+const makeRequest = async () => {
+  const value1 = await promise1()
+  const value2 = await promise2(value1)
+  return promise3(value1, value2)
+}
+```
+
+### 5\. 错误栈
+
+想像这样一个情景：连续链式调用多个`Promise`，然后其中某个地方可能会抛出异常：
+
+```javascript
+const makeRequest = () => {
+  return callAPromise()
+    .then(() => callAPromise())
+    .then(() => callAPromise())
+    .then(() => callAPromise())
+    .then(() => callAPromise())
+    .then(() => {
+      throw new Error("oops");
+    })
+}
+
+makeRequest()
+  .catch(err => {
+    console.log(err);
+    // 输出
+    // Error: oops at callAPromise.then.then.then.then.then (index.js:8:13)
+  })
+```
+
+这个错误输出栈不能明确的指示错误发生在哪里。甚至会产生误导：整个错误只包含一个方法名`then`。
+
+然而，async/await的错误栈会指向具体产生错误的方法：
+
+```javascript
+const makeRequest = async () => {
+  await callAPromise()
+  await callAPromise()
+  await callAPromise()
+  await callAPromise()
+  await callAPromise()
+  throw new Error("oops");
+}
+
+makeRequest()
+  .catch(err => {
+    console.log(err);
+    // output
+    // Error: oops at makeRequest (index.js:7:9)
+  })
+```
+
+其实当你本地开发调试时，这一点意义不大。但是如果你需要在生产环境服务器上的代码上找错时，就非常实用了。在这种情况下，知道错误发生在`makeRequest`比知道错误发生在`then.then.then.then...`要好很多......
+
+### 6\. 调试
+
+最后，async/await一个巨大的优势是它非常容易调试。对`Promise`进行调试出于两个原因非常的痛苦：
+
+1. 你不能在返回表达式的箭头函数上设置断点（没有函数体）。
+
+  ```javascript
+  const makeRequest = () =>{
+  reutrn callAPromise()
+  .then(()=>callAPromise())
+  .then(()=>callAPromise())
+  .then(()=>callAPromise())
+  .then(()=>callAPromise())
+  }
+  ```
+
+2. 如果你在一个`.then`块内设置了断点，然后用`step-over`等功能时，调试器不会进入`.then`代码因为他只会"step"进同步代码。
+
+使用async/await你不需要那么多箭头函数，你可以直接"step"那些`await`调用，就像普通的同步调用一样。
+
+```javascript
+const makeRequest = async () =>{
+  await callAPromise()
+  await callAPromise()
+  await callAPromise()
+  await callAPromise()
+  await callAPromise()
+}
+```
+
+## 结论
+
+Async/await是Javascript近几年来最具有革命性的特性之一，它让你体会到`Promise`是多么的混乱，然后给你一个方便的替代品。
